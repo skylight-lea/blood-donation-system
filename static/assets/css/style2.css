@@ -77,7 +77,7 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 1px;
   text-transform: uppercase;
   font-family: "Poppins", sans-serif;
-  border-left: 8px solid #8B0000;
+  border-left: 8px solid #B22222;
 }
 #header .logo h1 a, #header .logo h1 a:hover {
   color: #545454;
@@ -309,7 +309,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 #hero .carousel-item::before {
   content: "";
-  background-color: rgba(255, 255, 255, 0.6);
+  /*background-color: rgba(255, 255, 255, 0.6);*/
   position: absolute;
   top: 0;
   right: 0;
@@ -358,7 +358,7 @@ h1, h2, h3, h4, h5, h6 {
 #hero .carousel-inner .active,
 #hero .carousel-inner .carousel-item-next.carousel-item-start,
 #hero .carousel-inner .carousel-item-prev.carousel-item-end {
-  opacity: 1;
+  opacity: 1; 
   transition: 0.5s;
 }
 #hero .carousel-inner .carousel-item-next,
