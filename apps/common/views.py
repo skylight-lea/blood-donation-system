@@ -19,9 +19,10 @@ def request_blood(request):
         address = request.POST['address']
         blood_group = request.POST['blood_group']
         date = request.POST['date']
-        blood_requests = RequestBlood.objects.create(name=name, email=email, phone=phone, state=state, city=city, address=address, blood_group=BloodGroup.objects.get(name=blood_group), date=date)
+        units = request.POST['units']
+        blood_requests = RequestBlood.objects.create(name=name, email=email, phone=phone, state=state, city=city, address=address, blood_group=BloodGroup.objects.get(name=blood_group), date=date, units=units,)
         blood_requests.save()
-        return redirect("index")
+        # return redirect("index")
     return render(request, "request_blood.html")
 
 
@@ -46,19 +47,26 @@ def become_donor(request):
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
  
-        if password != confirm_password:
-            messages.error(request, "Passwords do not match.")
-            return redirect('/signup')
+        # if password != confirm_password:
+        #     messages.error(request, "Passwords do not match.")
+        #     return redirect('/become_donor')
  
         user = User.objects.create_user(username=username, email=email, first_name=first_name, last_name=last_name, password=password)
         donors = Donor.objects.create(donor=user, phone=phone, state=state, city=city, address=address, gender=gender, blood_group=BloodGroup.objects.get(name=blood_group), date_of_birth=date, image=image)
         user.save()
         donors.save()
-        return render(request, "index.html")
+        # return render(request, "become_donor.html")
     return render(request, "become_donor.html")
 
 def home (request):
      return render(request, "home.html")
+ 
+def about (request):
+     return render(request, "about.html")
+ 
+def login_user (request):
+     return render(request, "login_user.html")
+ 
 
 
     
