@@ -1,5 +1,14 @@
+{% extends './base.html' %}
+
+{% load static %}
+
+{% block content %}
+
 <div class="container">
+    <br>
+    <br>
     <form method="POST" enctype="multipart/form-data"> {% csrf_token %}
+        <h3><i style="font-weight: bold;">Become a Donor</i></h3>
 <div class="row mt-1">
     <div class="form-group col-md-12">
         <label><i style="font-weight: bold;">Username</i></label>
@@ -97,7 +106,14 @@
         <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required>
     </div>
 </div>
- 
+<br>
 <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<br>
 </div>
+
+{% endblock content %}
+
+{% block script %}
+    
+{% endblock script %}

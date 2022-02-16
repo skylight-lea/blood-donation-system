@@ -1,0 +1,44 @@
+{% extends './base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<main id="main">
+
+    <!-- ======= Login Section ======= -->
+    <section id="login" class="login">
+      <div class="container">
+        <br>
+        <br>
+        <br>
+          <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="icon-box">
+              <h3><a href="">Login</a></h3>
+              <div class="row mt-4">
+                <div class="form-group col-md-12">
+                    <label><i style="font-size:17px;">Username</i></label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter Username" required>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="form-group col-md-12">
+                    <label><i style="font-size:17px;">Password</i></label>
+                    <input type="text" class="form-control" name="password" id="password" placeholder="Enter Password" required>
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+          </div>
+      </div>
+    </section><!-- End Featured Section -->
+
+</main>
+
+
+{% endblock content %}
+
+{% block script %}
+    
+{% endblock script %}
