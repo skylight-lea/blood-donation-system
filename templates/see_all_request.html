@@ -107,14 +107,10 @@
       <button type="submit" name='update' value="{{user.id}}" class="btn btn-primary">Submit</button>
     </form>
   {% endif %}
-  {% comment %} <script>
-    let formmodal = document.getElementById("exampleModalCenter");
 
-    $('#exampleModalCenter').modal({
-      show: 'false'
-    }); 
-  </script>
 
+  
+  <button type="submit" name='test' id="test" value="1" class="btn btn-primary">Test</button>
   <!-- Modal -->
   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -134,7 +130,7 @@
         </div>
       </div>
     </div>
-  </div> {% endcomment %}
+  </div>
 
   
 </div>
@@ -142,5 +138,17 @@
 {% endblock content %}
 
 {% block script %}
-    
+  <script>
+    let formmodal = document.getElementById("exampleModalCenter");
+    let test = document.getElementById("test");
+
+    test.addEventListener('click', function() {
+      var testing = $('#test').val();
+      console.log(testing)
+
+      $('#exampleModalCenter').modal('show')
+
+    });
+
+  </script>
 {% endblock script %}
