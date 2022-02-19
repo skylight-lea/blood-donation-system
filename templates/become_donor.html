@@ -7,7 +7,7 @@
 <div class="container">
     <br>
     <br>
-    <form method="POST" enctype="multipart/form-data"> {% csrf_token %}
+    <form method="POST" enctype="multipart/form-data" id="become_donor"> {% csrf_token %}
         <h3><i style="font-weight: bold;">Become a Donor</i></h3>
 <div class="row mt-1">
     <div class="form-group col-md-12">
@@ -115,5 +115,11 @@
 {% endblock content %}
 
 {% block script %}
+<script>
     
+    {% comment %} $('#become_donor').submit(function(e){
+        e.preventDefault();
+        console.log('stop from submitting!')
+    }); {% endcomment %}
+</script>
 {% endblock script %}

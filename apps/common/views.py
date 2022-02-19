@@ -2,6 +2,8 @@ from pyexpat.errors import messages
 from django.shortcuts import redirect, render
 from .models import * 
 from django.db.models import Q, Count
+from django.contrib import messages
+from django.contrib.auth import authenticate
 
 # Create your views here.
 def index(request):
@@ -28,6 +30,47 @@ def request_blood(request):
 
 def see_all_request(request):
     requests = RequestBlood.objects.all()
+    if request.method == "POST":
+        if 'update_id' in request.POST:
+            print(request.POST)
+            user_id=request.POST.get('update_id')
+            user = RequestBlood.objects.get(id=user_id)
+            print(user)
+            print('Update: User ', request.POST.get('update_id'))
+            return render(request, "see_all_request.html", {'requests':requests, 'user':user})
+        
+        if 'delete_id' in request.POST:
+            print(request.POST)
+            user_id=request.POST.get('delete_id')
+            user = RequestBlood.objects.get(id=user_id)
+            print('delete', user)
+            user.delete()
+            print('Update: User ', request.POST.get('delete_id'))
+            
+            requests = RequestBlood.objects.all()
+            return render(request, "see_all_request.html", {'requests':requests})
+        
+        if 'update' in request.POST:
+            user_id=request.POST.get('update')
+            user = RequestBlood.objects.get(id=user_id)
+            print(user)
+            print(request.POST)
+            user.name = request.POST['name']
+            user.email = request.POST['email']
+            user.phone = request.POST['phone']
+            user.state = request.POST['state']
+            user.city = request.POST['city']
+            user.address = request.POST['address']
+            user.blood_group = BloodGroup.objects.get(name=request.POST['blood_group'])
+            user.date = request.POST['date']
+            user.units = request.POST['units']
+            user.save()
+            
+            requests = RequestBlood.objects.all()
+            return render(request, "see_all_request.html", {'requests':requests})
+        print(request.POST)    
+        
+        
     return render(request, "see_all_request.html", {'requests':requests})
 
 def become_donor(request):
@@ -50,12 +93,12 @@ def become_donor(request):
         # if password != confirm_password:
         #     messages.error(request, "Passwords do not match.")
         #     return redirect('/become_donor')
- 
-        user = User.objects.create_user(username=username, email=email, first_name=first_name, last_name=last_name, password=password)
-        donors = Donor.objects.create(donor=user, phone=phone, state=state, city=city, address=address, gender=gender, blood_group=BloodGroup.objects.get(name=blood_group), date_of_birth=date, image=image)
-        user.save()
-        donors.save()
-        # return render(request, "become_donor.html")
+        print('registered')
+        # user = User.objects.create_user(username=username, email=email, first_name=first_name, last_name=last_name, password=password)
+        # donors = Donor.objects.create(donor=user, phone=phone, state=state, city=city, address=address, gender=gender, blood_group=BloodGroup.objects.get(name=blood_group), date_of_birth=date, image=image)
+        # user.save()
+        # donors.save()
+        return render(request, "become_donor.html")
     return render(request, "become_donor.html")
 
 def home (request):
@@ -65,8 +108,28 @@ def about (request):
      return render(request, "about.html")
  
 def login_user (request):
-     return render(request, "login_user.html")
+    if request.user.is_authenticated:
+        print('Already login')
+        return redirect("/")
+    else:
+        if request.method == "POST":
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                login_user(request, user)
+                print('success')
+                return redirect("/profile")
+            else:
+                thank = True
+                print("Rejected")
+                return render(request, "login_user.html", {"thank":thank})
+    return render(request, "login_user.html")
+    # return render(request, "login_user.html")
  
+ 
+
 
 
     
