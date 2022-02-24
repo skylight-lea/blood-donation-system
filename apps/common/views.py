@@ -132,7 +132,9 @@ def about (request):
      return render(request, "about.html")
  
 def blood_group (request):
-     return render(request, "blood_group.html")
+    all_group = BloodGroup.objects.annotate(total=Count('donor'))
+    print(all_group)
+    return render(request, "blood_group.html", {'all_group':all_group})
  
  
 def login_user (request):
