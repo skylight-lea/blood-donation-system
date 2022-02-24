@@ -158,7 +158,13 @@ def login_user (request):
     return render(request, "login_user.html")
     # return render(request, "login_user.html")
  
- 
+def donors_list(request, myid):
+    print(myid)
+    donors = Donor.objects.filter(blood_group_id=myid)
+    
+    for donor in donors:
+        print(type(donor))
+    return render(request, "donors_list.html", {"donors" : donors})
 
 
 

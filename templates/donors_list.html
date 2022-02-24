@@ -1,0 +1,103 @@
+{% extends './base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container"> 
+  <form method="POST">{% csrf_token %}
+    {% if donors %}
+      <h3 class="text-center">All Blood Requests</h3>
+      <br>
+      <table class="table table-sm table-bordered">
+        <tr class="table-danger">
+          <th>Name</th>
+          <th>Blood Group</th>
+          <th>State | City</th>
+          <th>Status</th>
+          <th>Details</th>
+        </tr>
+        {% for donor in donors %}
+          <tr>
+            <td>{{donor.donor}}</td>
+            <td>{{donor.blood_group}}</td>
+            <td>{{donor.state}} | {{donor.city}}</td>
+            {% if donor.ready_to_donate %}
+              <td>Ready to donate</td>
+            {% else %}
+              <td>Not ready to donate</td>
+            {% endif %}
+            <td><button type="button" class="btn btn-primary view_details" name='view' data-id="{{ donor.id }}">View</button></td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <h3 class="text-center">All Blood Requests</h3>
+      <br>
+      <table class="table table-sm table-bordered">
+        <tr class="table-danger">
+          <th>Name</th>
+          <th>Blood Group</th>
+          <th>State | City</th>
+          <th>Status</th>
+          <th>Details</th>
+        </tr>
+      </table>
+      <br><br><br> <br><br><br> 
+      <h2>No Blood Request Available</h2>
+      <br><br><br> <br><br><br>
+    {% endif %}
+  </form>
+
+  <div class="modal fade" id="donorDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock content %}
+
+{% block script %}
+  <script>
+    let view_details = document.getElementsByClassName('view_details');
+
+    for (var i = 0; i < view_details.length; i++) {
+      view_details[i].addEventListener('click', function() {
+        var donors_id = $(this).data('id');
+        console.log(donors_id)
+
+        $('#donorDetailsModal').modal('show');
+        
+        /*$.ajax({
+          url:'/get_request_data',
+          data:{
+              'request_id': request_id,
+          },
+          success: function(data){
+            if(data.success){
+            }
+          },
+          error: function(data){
+            alert("fail");
+          }
+
+        }); */
+
+    
+      });
+    };
+
+  </script>
+{% endblock script %}
