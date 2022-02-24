@@ -4,7 +4,7 @@ app_name = "common"
 
 urlpatterns = [
     path("", index, name="index"),
-    # path("donors_list/<int:myid>/", views.donors_list, name="donors_list"),
+    path("donors_list/<int:myid>/", donors_list, name="donors_list"),
     # path("donors_details/<int:myid>/", views.donors_details, name="donors_details"),
     path("home", home, name="home"),
     path("request_blood/", request_blood, name="request_blood"),
