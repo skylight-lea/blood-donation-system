@@ -79,21 +79,22 @@
         console.log(donors_id)
 
         $('#donorDetailsModal').modal('show');
-        
-        /*$.ajax({
-          url:'/get_request_data',
+
+        $.ajax({
+          url:'/view_donor_details',
           data:{
-              'request_id': request_id,
+              'donors_id': donors_id,
           },
           success: function(data){
             if(data.success){
+              console.log(data.donor)
             }
           },
           error: function(data){
             alert("fail");
           }
 
-        }); */
+        }); 
 
     
       });

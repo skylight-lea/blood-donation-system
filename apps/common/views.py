@@ -4,7 +4,9 @@ from django.shortcuts import redirect, render
 from .models import * 
 from django.db.models import Q, Count
 from django.contrib import messages
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 def index(request):
@@ -136,7 +138,6 @@ def blood_group (request):
     print(all_group)
     return render(request, "blood_group.html", {'all_group':all_group})
  
- 
 def login_user (request):
     if request.user.is_authenticated:
         print('Already login')
@@ -148,9 +149,9 @@ def login_user (request):
             user = authenticate(username=username, password=password)
 
             if user is not None:
-                login_user(request, user)
+                login(request, user)
                 print('success')
-                return redirect("/profile")
+                return redirect("/profile/")
             else:
                 thank = True
                 print("Rejected")
@@ -165,6 +166,45 @@ def donors_list(request, myid):
     for donor in donors:
         print(type(donor))
     return render(request, "donors_list.html", {"donors" : donors})
+
+def view_donor_details(request):
+    print(request.GET.get('donors_id'))
+    
+    id = request.GET.get('donors_id')
+    donor = Donor.objects.get(id=id)
+    
+    data =  {
+        'success' : True,
+        'donor' : {
+            'username' : donor.donor.username,
+            'full_name' : donor.donor.first_name + ' ' + donor.donor.last_name,
+            'email' : donor.donor.email,
+            'gender' : donor.gender,
+            'date_of_birth' : donor.date_of_birth,
+            'gender' : donor.gender,
+            'phone' : donor.phone,
+            'address' : donor.address,
+            'city' : donor.city,
+            'state' : donor.state,
+            'ready_to_donate' : donor.ready_to_donate,
+            'blood_group' : donor.blood_group.name,
+            'image' : donor.image.name,
+        }
+    }
+    return JsonResponse(data)
+
+@login_required(login_url = '/login_user/')
+def profile(request):
+    if request.method=="POST":
+        print(request.POST)
+        if "logout" in request.POST:
+            logout(request)
+            return redirect("/login_user/")
+            
+    donor_profile = Donor.objects.get(donor=request.user)
+    return render(request, "profile.html", {'donor_profile':donor_profile})
+
+    
 
 
 
