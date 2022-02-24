@@ -107,6 +107,10 @@ def home (request):
 def about (request):
      return render(request, "about.html")
  
+def blood_group (request):
+     return render(request, "blood_group.html")
+ 
+ 
 def login_user (request):
     if request.user.is_authenticated:
         print('Already login')

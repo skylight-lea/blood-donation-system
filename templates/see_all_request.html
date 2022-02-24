@@ -28,8 +28,10 @@
             <td>{{i.units}}</td>
             <td>{{i.date}}</td>
             <td>{{i.state}} | {{i.city}}</td>
-            <td><button type="submit" name='update_id' id='update_id' value="{{i.id}}">Update</button>
-            <button type="submit" name='delete_id' id='delete_id' value="{{i.id}}">Delete</button></td>
+            <td><!--<button type="submit" name='update_id' id='update_id' value="{{i.id}}">Update</button>-->
+              <button type="button" name='test' id="test" class="btn btn-primary">Create</button>
+              <button type="button" name='test' id="test" class="btn btn-primary">Update</button> <!--Ikaw bahala-->
+              <button type="submit" name='delete_id' id='delete_id' value="{{i.id}}" class="btn btn-primary">Delete</button></td>
           </tr>
         {% endfor %}
       </table>
@@ -37,8 +39,20 @@
       <h2>No Blood Request Available</h2>
     {% endif %}
   </form>
-
-  {% if user %}
+  
+  {% comment %} <button type="submit" name='test' id="test" value="1" class="btn btn-primary">Test</button> {% endcomment %}
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% if user %}
     <form method="POST"> {% csrf_token %}
       <div class="row mt-4">
           <div class="form-group col-md-12">
@@ -108,21 +122,6 @@
     </form>
   {% endif %}
 
-
-  
-  <button type="submit" name='test' id="test" value="1" class="btn btn-primary">Test</button>
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ...
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -149,6 +148,8 @@
       $('#exampleModalCenter').modal('show')
 
     });
+
+    
 
   </script>
 {% endblock script %}
