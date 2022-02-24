@@ -1,5 +1,11 @@
+{% extends './base.html' %}
+
+{% load static %}
+
+{% block content %}
+
 <div class="container">
-    <h1>Available Donors According To Blood Group</h1>
+  <h3><i style="font-weight: bold;">Available Donors According To Blood Group</i></h3>
     <div class="album py-5 bg-light">
         <div class="container">
           <div class="row">
@@ -11,7 +17,7 @@
                     <h3 class="card-text">Total Donor: {{i.total}}</h3>
                     <div class="d-flex justify-content-between align-items-center">
                       <div class="btn-group">
-                        <a href="/request_blood/{{i.id}}/" class="btn btn-sm btn-outline-danger">View All Donors</a>
+                        <a href="/request_blood/{{i.id}}/" class="btn btn-sm btn-outline-danger" style="color:black;">View All Donors</a>
                       </div>
                     </div>
                   </div>
@@ -22,3 +28,9 @@
         </div>
     </div>
 </div>
+
+{% endblock content %}
+
+{% block script %}
+    
+{% endblock script %}
