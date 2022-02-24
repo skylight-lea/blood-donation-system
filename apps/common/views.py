@@ -1,4 +1,5 @@
 from pyexpat.errors import messages
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from .models import * 
 from django.db.models import Q, Count
@@ -72,6 +73,29 @@ def see_all_request(request):
         
         
     return render(request, "see_all_request.html", {'requests':requests})
+
+def get_request_data(request):
+    print(request.GET)
+    user_id=request.GET.get('request_id')
+    user = RequestBlood.objects.get(id=user_id)
+    print(user)
+    print('Update: User ', request.GET.get('request_id'))
+    
+    data =  {
+        'success' : True,
+        'request' : {
+            'name' : user.name,
+            'email' : user.email,
+            'phone' : user.phone,
+            'state' : user.state,
+            'city' : user.city,
+            'address' : user.address,
+            'blood_group' : user.blood_group.name,
+            'date' : user.date,
+            'units' : user.units,
+        }
+    }
+    return JsonResponse(data)
 
 def become_donor(request):
     if request.method=="POST":   

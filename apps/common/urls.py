@@ -12,11 +12,14 @@ urlpatterns = [
     path("become_donor/", become_donor, name="become_donor"),
     path("about/", about , name="about"),
     path("login_user/", login_user , name="login_user"),
-    path("blood_group/", blood_group , name="blood_group")
+    path("blood_group/", blood_group , name="blood_group"),
     # path("login/", views.Login, name="login"),
     # path("logout/", views.Logout, name="logout"),
     # path('profile/', views.profile, name='profile'),
     # path('edit_profile/', views.edit_profile, name='edit_profile'),
     # path('change_status/', views.change_status, name='change_status'),
+    
+    #functions
+    path("get_request_data", get_request_data , name="get_request_data"),
 ]
 
