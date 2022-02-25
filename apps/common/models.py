@@ -24,13 +24,13 @@ class RequestBlood(models.Model):
 class Donor(models.Model):
     donor = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
     date_of_birth = models.CharField(max_length=100)
-    phone = models.CharField(max_length=10)
+    phone = models.CharField(max_length=11)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     address = models.TextField(max_length=500, default="")
     blood_group = models.ForeignKey(BloodGroup, on_delete=models.CASCADE)
     gender = models.CharField(max_length=10)
-    image = models.ImageField(upload_to="media")
+    image = models.ImageField(upload_to="profile_pic")
     ready_to_donate = models.BooleanField(default=True)
  
     def __str__(self):

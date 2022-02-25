@@ -3,5 +3,4 @@ python3.9.5
 *.pot
 *.pyc
 __pycache__
-.jpg
-.png
+media
