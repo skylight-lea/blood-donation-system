@@ -1,5 +1,7 @@
 from django.urls import path
 from .views import *
+from django.conf import settings
+from django.conf.urls.static import static
 app_name = "common"
 
 urlpatterns = [
@@ -13,6 +15,9 @@ urlpatterns = [
     path("about/", about , name="about"),
     path("login_user/", login_user , name="login_user"),
     path("blood_group/", blood_group , name="blood_group"),
+    path('profile/', profile, name='profile'),
+    path('edit_profile/', edit_profile, name='edit_profile'),
+    path('change_status/', change_status, name='change_status'),
     # path("login/", views.Login, name="login"),
     # path("logout/", views.Logout, name="logout"),
     # path('profile/', views.profile, name='profile'),
@@ -21,5 +26,8 @@ urlpatterns = [
     
     #functions
     path("get_request_data", get_request_data , name="get_request_data"),
+    path("view_donor_details", view_donor_details , name="view_donor_details"),
 ]
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

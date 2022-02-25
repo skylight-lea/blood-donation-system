@@ -4,7 +4,9 @@ from django.shortcuts import redirect, render
 from .models import * 
 from django.db.models import Q, Count
 from django.contrib import messages
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 def index(request):
@@ -122,7 +124,8 @@ def become_donor(request):
         donors = Donor.objects.create(donor=user, phone=phone, state=state, city=city, address=address, gender=gender, blood_group=BloodGroup.objects.get(name=blood_group), date_of_birth=date, image=image)
         user.save()
         donors.save()
-        return render(request, "become_donor.html")
+        return redirect('/login_user/')
+        # return render(request, "become_donor.html")
     return render(request, "become_donor.html")
 
 def home (request):
@@ -136,11 +139,10 @@ def blood_group (request):
     print(all_group)
     return render(request, "blood_group.html", {'all_group':all_group})
  
- 
 def login_user (request):
     if request.user.is_authenticated:
         print('Already login')
-        return redirect("/")
+        return redirect("/profile/")
     else:
         if request.method == "POST":
             username = request.POST['username']
@@ -148,9 +150,9 @@ def login_user (request):
             user = authenticate(username=username, password=password)
 
             if user is not None:
-                login_user(request, user)
+                login(request, user)
                 print('success')
-                return redirect("/profile")
+                return redirect("/profile/")
             else:
                 thank = True
                 print("Rejected")
@@ -166,7 +168,88 @@ def donors_list(request, myid):
         print(type(donor))
     return render(request, "donors_list.html", {"donors" : donors})
 
-
-
+def view_donor_details(request):
+    print(request.GET.get('donors_id'))
     
+    id = request.GET.get('donors_id')
+    donor = Donor.objects.get(id=id)
+    
+    data =  {
+        'success' : True,
+        'donor' : {
+            'username' : donor.donor.username,
+            'full_name' : donor.donor.first_name + ' ' + donor.donor.last_name,
+            'email' : donor.donor.email,
+            'gender' : donor.gender,
+            'date_of_birth' : donor.date_of_birth,
+            'gender' : donor.gender,
+            'phone' : donor.phone,
+            'address' : donor.address,
+            'city' : donor.city,
+            'state' : donor.state,
+            'ready_to_donate' : donor.ready_to_donate,
+            'blood_group' : donor.blood_group.name,
+            'image' : donor.image.name,
+        }
+    }
+    return JsonResponse(data)
+
+@login_required(login_url = '/login_user/')
+def profile(request):
+    if request.method=="POST":
+        print(request.POST)
+        if "logout" in request.POST:
+            logout(request)
+            return redirect("/login_user/")
+            
+    donor_profile = Donor.objects.get(donor=request.user)
+    return render(request, "profile.html", {'donor_profile':donor_profile})
+
+@login_required(login_url = '/login_user/')
+def edit_profile(request):
+    donor_profile = Donor.objects.get(donor=request.user)
+    if request.method == "POST":
+        donor_profile = Donor.objects.get(donor=request.user)
+        print(request.POST)
+        email = request.POST['email']
+        phone = request.POST['phone']
+        state = request.POST['state']
+        city = request.POST['city']
+        address = request.POST['address']
+
+        donor_profile.donor.email = email
+        donor_profile.phone = phone
+        donor_profile.state = state
+        donor_profile.city = city
+        donor_profile.address = address
+        donor_profile.save()
+        donor_profile.donor.save()
+
+        if('image' not in request.POST):
+            try:
+                image = request.FILES['image']
+                donor_profile.image = image
+                donor_profile.save()
+            except:
+                pass
+            alert = True
+        else:
+            print('no image uploaded')
+            
+        return redirect('/profile/')
+        # return render(request, "edit_profile.html", {'alert':alert})
+    return render(request, "edit_profile.html", {'donor_profile':donor_profile})
+    
+def change_status(request):
+    donor_profile = Donor.objects.get(donor=request.user)
+    
+    if donor_profile.ready_to_donate:
+        donor_profile.ready_to_donate = False
+        donor_profile.save()
+    else:
+        donor_profile.ready_to_donate = True
+        donor_profile.save()
+    
+    return redirect('/profile/')
+        
     
