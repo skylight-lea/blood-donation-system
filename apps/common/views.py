@@ -304,7 +304,10 @@ def change_status(request):
         donor_profile.ready_to_donate = True
         donor_profile.save()
     
-    return redirect('/profile/')  
+    return redirect('/profile/')
+
+def blood_sched (request):
+     return render(request, "blood_sched.html")
         
 def logout_user(request):
     logout(request)

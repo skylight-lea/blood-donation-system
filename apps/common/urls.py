@@ -18,6 +18,7 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('edit_profile/', edit_profile, name='edit_profile'),
     path('change_status/', change_status, name='change_status'),
+    path('blood_sched/', blood_sched, name='blood_sched'),
     # path("login/", views.Login, name="login"),
     # path("logout/", views.Logout, name="logout"),
     # path('profile/', views.profile, name='profile'),
