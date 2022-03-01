@@ -3,9 +3,48 @@
 {% load static %}
 
 {% block content %}
-<div class="container"> 
+<div class="container">
+
   <form method="POST">{% csrf_token %}
-    {% if requests %}
+    <h3 class="text-center">Priority Blood Requests</h3>
+    <br>
+      <table class="table table-sm table-bordered">
+        <tr class="table-danger">
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Blood Group</th>
+          <th>Units</th>
+          <th>Donation Date</th>
+          <th>State | City</th>
+          <th>Actions</th>
+        </tr>
+        {% if priority_requests %}
+          {% for i in priority_requests %}
+            <tr>
+              <td>{{i.name}}</td>
+              <td>{{i.phone}}</td>
+              <td>{{i.email}}</td>
+              <td>{{i.blood_group}}</td>
+              <td>{{i.units}}</td>
+              <td>{{i.date}}</td>
+              <td>{{i.state}} | {{i.city}}</td>
+              <td><!--<button type="submit" name='update_id' id='update_id' value="{{i.id}}">Update</button>-->
+                <button type="button" class="btn btn-primary update_request" name='update_id' data-id="{{ i.id }}" class="btn btn-primary">Update</button> <!--Ikaw bahala-->
+                <button type="submit" name='accept' id='accept' value="{{i.id}}" class="btn btn-primary">Accept</button>
+                <button type="submit" name='delete_id' id='delete_id' value="{{i.id}}" class="btn btn-primary">Delete</button></td>
+            </tr>
+          {% endfor %}
+          </table>
+        {% else %}
+          </table>
+          <br><br><br>
+          <h2>No Priority Blood Request Available</h2>
+          <br><br><br>
+        {% endif %}
+  </form>
+
+  <form method="POST">{% csrf_token %}
     <h3 class="text-center">All Blood Requests</h3>
     <br>
       <table class="table table-sm table-bordered">
@@ -19,40 +58,29 @@
           <th>State | City</th>
           <th>Actions</th>
         </tr>
-        {% for i in requests %}
-          <tr>
-            <td>{{i.name}}</td>
-            <td>{{i.phone}}</td>
-            <td>{{i.email}}</td>
-            <td>{{i.blood_group}}</td>
-            <td>{{i.units}}</td>
-            <td>{{i.date}}</td>
-            <td>{{i.state}} | {{i.city}}</td>
-            <td><!--<button type="submit" name='update_id' id='update_id' value="{{i.id}}">Update</button>-->
-              <button type="button" class="btn btn-primary update_request" name='update_id' data-id="{{ i.id }}" class="btn btn-primary">Update</button> <!--Ikaw bahala-->
-              <button type="submit" name='delete_id' id='delete_id' value="{{i.id}}" class="btn btn-primary">Delete</button></td>
-          </tr>
-        {% endfor %}
+        {% if requests %}
+          {% for i in requests %}
+            <tr>
+              <td>{{i.name}}</td>
+              <td>{{i.phone}}</td>
+              <td>{{i.email}}</td>
+              <td>{{i.blood_group}}</td>
+              <td>{{i.units}}</td>
+              <td>{{i.date}}</td>
+              <td>{{i.state}} | {{i.city}}</td>
+              <td><!--<button type="submit" name='update_id' id='update_id' value="{{i.id}}">Update</button>-->
+                <button type="button" class="btn btn-primary update_request" name='update_id' data-id="{{ i.id }}" class="btn btn-primary">Update</button> <!--Ikaw bahala-->
+                <button type="submit" name='accept' id='accept' value="{{i.id}}" class="btn btn-primary">Accept</button>
+                <button type="submit" name='delete_id' id='delete_id' value="{{i.id}}" class="btn btn-primary">Delete</button></td>
+            </tr>
+          {% endfor %}
       </table>
-      {% else %}
-      <h3 class="text-center">All Blood Requests</h3>
-      <br>
-      <table class="table table-sm table-bordered">
-        <tr class="table-danger">
-          <th>Name</th>
-          <th>Phone</th>
-          <th>Email</th>
-          <th>Blood Group</th>
-          <th>Units</th>
-          <th>Donation Date</th>
-          <th>State | City</th>
-          <th>Actions</th>
-        </tr>
+        {% else %}
       </table>
-      <br><br><br> <br><br><br> 
-      <h2>No Blood Request Available</h2>
-      <br><br><br> <br><br><br>
-    {% endif %}
+          <br><br><br>
+          <h2>No Priority Blood Request Available</h2>
+          <br><br><br>
+        {% endif %}
   </form>
   
   {% comment %} <button type="submit" name='test' id="test" value="1" class="btn btn-primary">Test</button> {% endcomment %}
