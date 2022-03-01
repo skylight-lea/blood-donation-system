@@ -31,6 +31,7 @@ class Donor(models.Model):
     blood_group = models.ForeignKey(BloodGroup, on_delete=models.CASCADE)
     gender = models.CharField(max_length=10)
     image = models.ImageField(upload_to="profile_pic")
+    units_blood_donated = models.IntegerField(default=0, blank=True)
     ready_to_donate = models.BooleanField(default=True)
  
     def __str__(self):

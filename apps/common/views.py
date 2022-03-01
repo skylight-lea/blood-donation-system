@@ -33,6 +33,7 @@ def request_blood(request):
 
 def see_all_request(request):
     requests = RequestBlood.objects.all()
+    
     if request.method == "POST":
         if 'update_id' in request.POST:
             print(request.POST)
@@ -40,7 +41,7 @@ def see_all_request(request):
             user = RequestBlood.objects.get(id=user_id)
             print(user)
             print('Update: User ', request.POST.get('update_id'))
-            return render(request, "see_all_request.html", {'requests':requests, 'user':user})
+            return render(request, "see_all_request.html", {'requests':requests, 'priority_requests':priority_list(requests)})
         
         if 'delete_id' in request.POST:
             print(request.POST)
@@ -51,7 +52,7 @@ def see_all_request(request):
             print('Update: User ', request.POST.get('delete_id'))
             
             requests = RequestBlood.objects.all()
-            return render(request, "see_all_request.html", {'requests':requests})
+            return render(request, "see_all_request.html", {'requests':requests, 'priority_requests':priority_list(requests)})
         
         if 'update' in request.POST:
             user_id=request.POST.get('update')
@@ -70,11 +71,24 @@ def see_all_request(request):
             user.save()
             
             requests = RequestBlood.objects.all()
-            return render(request, "see_all_request.html", {'requests':requests})
+            return render(request, "see_all_request.html", {'requests':requests, 'priority_requests':priority_list(requests)})
         print(request.POST)    
         
         
-    return render(request, "see_all_request.html", {'requests':requests})
+    return render(request, "see_all_request.html", {'requests':requests, 'priority_requests':priority_list(requests)})
+
+def priority_list(requests):
+    priority_list = []
+    for req in requests:
+        email = req.email
+        print(email)
+        donors = Donor.objects.filter(donor__email=email)
+        if donors:
+            print('units of blood donated: ', donors[0].units_blood_donated)
+            if donors[0].units_blood_donated >= 1:
+                priority_list.append(req)
+    
+    return priority_list
 
 def get_request_data(request):
     print(request.GET)
