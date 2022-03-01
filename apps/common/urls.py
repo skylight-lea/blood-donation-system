@@ -27,6 +27,7 @@ urlpatterns = [
     #functions
     path("get_request_data", get_request_data , name="get_request_data"),
     path("view_donor_details", view_donor_details , name="view_donor_details"),
+    path("logout", logout_user, name="logout"),
 ]
 
 if settings.DEBUG:

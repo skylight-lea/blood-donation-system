@@ -15,6 +15,13 @@ def index(request):
     return render(request, "index.html", {'all_group':all_group})
 
 def request_blood(request):
+    if request.user.is_authenticated:
+        username = request.user.username
+        loggedIn = True
+    else:
+        loggedIn = False
+        username = ''
+           
     if request.method == "POST":
         name = request.POST['name']
         email = request.POST['email']
@@ -28,7 +35,7 @@ def request_blood(request):
         blood_requests = RequestBlood.objects.create(name=name, email=email, phone=phone, state=state, city=city, address=address, blood_group=BloodGroup.objects.get(name=blood_group), date=date, units=units,)
         blood_requests.save()
         # return redirect("index")
-    return render(request, "request_blood.html")
+    return render(request, "request_blood.html", {'loggedIn' : loggedIn, 'username' : username})
 
 
 def see_all_request(request):
@@ -114,6 +121,13 @@ def get_request_data(request):
     return JsonResponse(data)
 
 def become_donor(request):
+    if request.user.is_authenticated:
+        username = request.user.username
+        loggedIn = True
+    else:
+        loggedIn = False
+        username = ''
+        
     if request.method=="POST":   
         username = request.POST['username']
         first_name = request.POST['first_name']
@@ -140,18 +154,37 @@ def become_donor(request):
         donors.save()
         return redirect('/login_user/')
         # return render(request, "become_donor.html")
-    return render(request, "become_donor.html")
+    return render(request, "become_donor.html",{'loggedIn' : loggedIn, 'username' : username})
 
 def home (request):
-     return render(request, "home.html")
+    if request.user.is_authenticated:
+        username = request.user.username
+        loggedIn = True
+    else:
+        loggedIn = False
+        username = ''
+    return render(request, "home.html", {'loggedIn' : loggedIn, 'username' : username})
  
 def about (request):
-     return render(request, "about.html")
+    if request.user.is_authenticated:
+        username = request.user.username
+        loggedIn = True
+    else:
+        loggedIn = False
+        username = ''
+    return render(request, "about.html", {'loggedIn' : loggedIn, 'username' : username})
  
 def blood_group (request):
     all_group = BloodGroup.objects.annotate(total=Count('donor'))
+    if request.user.is_authenticated:
+        username = request.user.username
+        loggedIn = True
+    else:
+        loggedIn = False
+        username = ''
+        
     print(all_group)
-    return render(request, "blood_group.html", {'all_group':all_group})
+    return render(request, "blood_group.html", {'all_group':all_group, 'loggedIn' : loggedIn, 'username' : username})
  
 def login_user (request):
     if request.user.is_authenticated:
@@ -175,12 +208,19 @@ def login_user (request):
     # return render(request, "login_user.html")
  
 def donors_list(request, myid):
-    print(myid)
     donors = Donor.objects.filter(blood_group_id=myid)
+    if request.user.is_authenticated:
+        username = request.user.username
+        loggedIn = True
+    else:
+        loggedIn = False
+        username = ''
+           
+    print(myid)
     
     for donor in donors:
         print(type(donor))
-    return render(request, "donors_list.html", {"donors" : donors})
+    return render(request, "donors_list.html", {"donors" : donors, 'loggedIn' : loggedIn, 'username' : username})
 
 def view_donor_details(request):
     print(request.GET.get('donors_id'))
@@ -217,7 +257,7 @@ def profile(request):
             return redirect("/login_user/")
             
     donor_profile = Donor.objects.get(donor=request.user)
-    return render(request, "profile.html", {'donor_profile':donor_profile})
+    return render(request, "profile.html", {'donor_profile':donor_profile, 'loggedIn' : True, 'username' : request.user.username})
 
 @login_required(login_url = '/login_user/')
 def edit_profile(request):
@@ -252,7 +292,7 @@ def edit_profile(request):
             
         return redirect('/profile/')
         # return render(request, "edit_profile.html", {'alert':alert})
-    return render(request, "edit_profile.html", {'donor_profile':donor_profile})
+    return render(request, "edit_profile.html", {'donor_profile':donor_profile, 'loggedIn' : True, 'username' : request.user.username})
     
 def change_status(request):
     donor_profile = Donor.objects.get(donor=request.user)
@@ -264,6 +304,9 @@ def change_status(request):
         donor_profile.ready_to_donate = True
         donor_profile.save()
     
-    return redirect('/profile/')
+    return redirect('/profile/')  
         
+def logout_user(request):
+    logout(request)
+    return JsonResponse({'success' : True})
     
