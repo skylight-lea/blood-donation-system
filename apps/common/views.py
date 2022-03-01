@@ -265,5 +265,8 @@ def change_status(request):
         donor_profile.save()
     
     return redirect('/profile/')
+
+def blood_sched (request):
+     return render(request, "blood_sched.html")
         
     
