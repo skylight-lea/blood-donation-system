@@ -1,0 +1,197 @@
+{% extends './base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+  <form method="POST">{% csrf_token %}
+    <h3 class="text-center">All Blood Request Schedule</h3>
+    <br>
+      <table class="table table-sm table-bordered">
+        <tr class="table-danger">
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Blood Group</th>
+          <th>Units</th>
+          <th>Donation Date</th>
+          <th>State | City</th>
+          <th>Actions</th>
+        </tr>
+        {% if requests %}
+          {% for i in requests %}
+            <tr>
+              <td>{{i.name}}</td>
+              <td>{{i.phone}}</td>
+              <td>{{i.email}}</td>
+              <td>{{i.blood_group}}</td>
+              <td>{{i.units}}</td>
+              <td>{{i.date}}</td>
+              <td>{{i.state}} | {{i.city}}</td>
+              <td><!--<button type="submit" name='update_id' id='update_id' value="{{i.id}}">Update</button>-->
+                <button type="button" class="btn btn-primary update_request" name='update_id' data-id="{{ i.id }}" class="btn btn-primary">Update</button> <!--Ikaw bahala-->
+                <button type="submit" name='accept' id='accept' value="{{i.id}}" class="btn btn-primary">Accept</button>
+                <button type="submit" name='delete_id' id='delete_id' value="{{i.id}}" class="btn btn-primary">Delete</button></td>
+            </tr>
+          {% endfor %}
+      </table>
+        {% else %}
+      </table>
+          <br><br><br>
+            <div class="note text-center">
+              <h5 class="empty">No Blood Request Schedule Available</h5>
+            </div>
+          <br><br><br>
+        {% endif %}
+  </form>
+  
+  {% comment %} <button type="submit" name='test' id="test" value="1" class="btn btn-primary">Test</button> {% endcomment %}
+  <!-- Modal -->
+  <div class="modal fade" id="requestBloodModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+          {% comment %} <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> {% endcomment %}
+        </div>
+        <div class="modal-body">
+          <form method="POST"> {% csrf_token %}
+            <div class="row mt-4">
+                <div class="form-group col-md-12">
+                    <label><i style="font-weight: bold;">Full Name</i></label>
+                    <input type="text" class="form-control" name="name" id="name" value="{% if user %}{{user.name}}{% endif %}" placeholder="Enter Name" required>
+                </div>
+            </div>
+            
+            <div class="row mt-1">
+                <div class="form-group col-md-6">
+                    <label><i style="font-weight: bold;">Email ID</i></label>
+                    <input type="email" class="form-control" name="email" id="email"  value="{% if user %}{{user.email}}{% endif %}" placeholder="Enter Email ID" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label><i style="font-weight: bold;">Contact Number</i></label>
+                    <input type="tel" class="form-control" name="phone" id="phone"  value="{% if user %}{{user.phone}}{% endif %}" placeholder="Enter Contact Number" required>
+                </div>
+            </div>
+            
+            <div class="row mt-1">
+                <div class="form-group col-md-6">
+                    <label><i style="font-weight: bold;">State</i></label>
+                    <input type="text" class="form-control" name="state" id="state"  value="{% if user %}{{user.state}}{% endif %}" placeholder="Enter State" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label><i style="font-weight: bold;">City</i></label>
+                    <input type="text" class="form-control" name="city" id="city"  value="{% if user %}{{user.city}}{% endif %}" placeholder="Enter City" required>
+                </div>
+            </div>
+            
+            <div class="row mt-1">
+                <div class="form-group col-md-12">
+                    <label><i style="font-weight: bold;">Address</i></label>
+                    <textarea class="form-control" id="address" name="address" rows="3" placeholder="Enter Address" required>{% if user %}{{user.address}}{% endif %}</textarea>
+                </div>
+            </div>
+            
+            <div class="row mt-1">
+              <div class="form-group col-md-6">
+                  <label><i style="font-weight: bold;">Blood Group</i></label>
+                  <select class="form-control" name="blood_group" id="blood_group"required>
+                      <option>A+</option>
+                      <option>A-</option>
+                      <option>B+</option>
+                      <option>B-</option>
+                      <option>O+</option>
+                      <option>O-</option>
+                      <option>AB+</option>
+                      <option>AB-</option>
+                  </select>
+              </div>
+
+              <div class="form-group col-md-6">
+                  <label><i style="font-weight: bold;">Date Of Donation</i></label>
+                  <input type="date" class="form-control" id="date" name="date" value="{% if user %}{{user.date}}{% endif %}" required>
+              </div>
+            
+              <div class="row mt-1">
+                  <div class="form-group col-md-6">
+                      <label><i style="font-weight: bold;">Units of Blood</i></label>
+                      <input type="text" class="form-control" name="units" id="units" value="{% if user %}{{user.units}}{% endif %}" placeholder="Enter Units of Blood" required>
+                  </div>
+              </div>
+        
+            </div>
+            <br>
+            {% comment %} <button type="submit" name='update' value="{{user.id}}" class="btn btn-primary">Submit</button> {% endcomment %}
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" id="close_modal" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" name="update" id="update">Save changes</button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+
+  
+</div>
+
+{% endblock content %}
+
+{% block script %}
+  <script> 
+
+    let formmodal = document.getElementById("exampleModalCenter");
+    let update_request = document.getElementsByClassName('update_request');
+    let close_modal = document.getElementById("close_modal");
+
+    close_modal.addEventListener('click', function() {
+      $('#requestBloodModal').modal('hide')
+    });
+
+    $('#requestBloodModal').on('hidden.bs.modal', function () {
+      console.log('modal closed')
+    })
+
+    for (var i = 0; i < update_request.length; i++) {
+      update_request[i].addEventListener('click', function() {
+        var request_id = $(this).data('id');
+        console.log(request_id)
+
+        $('#update').val(request_id)
+
+        $.ajax({
+          url:'/get_request_data',
+          data:{
+              'request_id': request_id,
+          },
+          success: function(data){
+            if(data.success){
+              $('#requestBloodModal').modal('show');
+              console.log(data.request.blood_group);
+              $('#name').val(data.request.name)
+              $('#email').val(data.request.email)
+              $('#phone').val(data.request.phone)
+              $('#state').val(data.request.state)
+              $('#city').val(data.request.city)
+              $('#address').val(data.request.address)
+              $('#blood_group').val(data.request.blood_group).change()
+              $('#date').val(data.request.date)
+              $('#units').val(data.request.units)
+            }
+          },
+          error: function(data){
+            alert("fail");
+          }
+
+        }); 
+
+    
+      });
+    };
+
+  </script>
+
+{% endblock script %}
