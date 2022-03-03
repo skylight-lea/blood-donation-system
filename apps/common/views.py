@@ -312,4 +312,7 @@ def blood_sched (request):
 def logout_user(request):
     logout(request)
     return JsonResponse({'success' : True})
+
+def contact (request):
+     return render(request, "contact.html")
     
