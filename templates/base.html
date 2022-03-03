@@ -29,7 +29,7 @@
 
         <!-- Template Main CSS File -->
         {% comment %} <link href="{% static 'assets/css/style.css' %}" rel="stylesheet"> {% endcomment %}
-        <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/css/style1.css' %}" rel="stylesheet">
         
         <!-- endinject -->
         <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
@@ -50,7 +50,7 @@
     <div class="container d-flex justify-content-between align-items-center">
 
       <div class="logo">
-        <h1><a href="index.html">Logo</a></h1>
+        <h1><a href="index.html">BDMS</a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
@@ -97,8 +97,8 @@
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Useful Links</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a class="active" href="{% url 'common:home' %}">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="{% url 'common:about' %}">About us</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
             </ul>
           </div>
@@ -114,18 +114,19 @@
           <div class="col-lg-3 col-md-6 footer-contact">
             <h4>Contact Us</h4>
             <p>
-              A108 Adam Street <br>
-              New York, NY 535022<br>
-              United States <br><br>
-              <strong>Phone:</strong> +1 5589 55488 55<br>
-              <strong>Email:</strong> info@example.com<br>
+              37 EDSA corner Boni Avenue,<br>
+              Barangka-Ilaya,<br>
+              Mandaluyong City 1550<br><br>
+              <strong>Phone:</strong> (02) 8790-2300 <br>
+              local 931/932/935<br>
+              <strong>Email:</strong>communication@redcross.org.ph<br>
             </p>
 
           </div>
 
           <div class="col-lg-3 col-md-6 footer-info">
             <h3>About Blood Donation Management for Red Cross</h3>
-            <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+            <p>Blood Donation is important for people in urgent need of it which can save millions of patients. Here Blood Donation Management System for Red Cross was developed for an easy access to all users. </p>
             <div class="social-links mt-3">
               <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
               <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
@@ -141,14 +142,14 @@
 
     <div class="container">
       <div class="copyright">
-        &copy; Copyright <strong><span>Eterna</span></strong>. All Rights Reserved
+        &copy; Copyright <strong><span>Blood Donation Management System for Red Cross</span></strong>. All Rights Reserved 2022.
       </div>
       <div class="credits">
         <!-- All the links in the footer should remain intact. -->
         <!-- You can delete the links only if you purchased the pro version. -->
         <!-- Licensing information: https://bootstrapmade.com/license/ -->
         <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/eterna-free-multipurpose-bootstrap-template/ -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        {% comment %} Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> {% endcomment %}
       </div>
     </div>
   </footer><!-- End Footer -->
