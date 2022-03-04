@@ -158,6 +158,47 @@ def get_request_data(request):
     }
     return JsonResponse(data)
 
+def accepted_request(request):
+    requests = RequestBlood.objects.filter(status="accepted")
+    
+    # check date validity
+    current_date = datetime.datetime.now().date()
+    for req in requests:
+        print(req.status)
+        request_date = datetime.datetime.strptime(req.date, '%Y-%m-%d').date()
+        if request_date < current_date:
+            req.status = 'accept_expired'
+            req.save()
+            print('request expired')
+    
+    requests = RequestBlood.objects.filter(status="accepted")
+    expired_requests = RequestBlood.objects.filter(status="accept_expired")
+    closed_requests = RequestBlood.objects.filter(status="closed")
+    
+    if request.method == "POST":
+        if 'delete_id' in request.POST:
+            print(request.POST)
+            user_id=request.POST.get('delete_id')
+            user = RequestBlood.objects.get(id=user_id)
+            print('delete', user)
+            user.delete()
+            print('Update: User ', request.POST.get('delete_id'))
+            
+            requests = RequestBlood.objects.filter(status="pending")
+            return render(request, "accepted_request.html", {'requests':requests, 'priority_requests':priority_list(requests), 'closed_requests':closed_requests, 'expired_requests':expired_requests})
+    
+        if 'close' in request.POST:
+            user_id=request.POST.get('close')
+            user = RequestBlood.objects.get(id=user_id)
+            user.status = "closed"
+            user.save()
+            requests = RequestBlood.objects.filter(status="accepted")
+            expired_requests = RequestBlood.objects.filter(status="accept_expired")
+            closed_requests = RequestBlood.objects.filter(status="closed")
+            return render(request, "accepted_request.html", {'requests':requests, 'priority_requests':priority_list(requests), 'closed_requests':closed_requests, 'expired_requests':expired_requests})
+    
+    return render(request, "accepted_request.html", {'requests':requests, 'priority_requests':priority_list(requests), 'closed_requests':closed_requests, 'expired_requests':expired_requests})
+
 def become_donor(request):
     if request.user.is_authenticated:
         username = request.user.username

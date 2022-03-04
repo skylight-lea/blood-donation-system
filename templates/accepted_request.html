@@ -1,0 +1,227 @@
+{% extends './admin_base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+
+  <form method="POST">{% csrf_token %}
+    <h3 class="text-center">Priority Blood Requests</h3>
+    <br>
+      <table class="table table-sm table-bordered">
+        <tr class="table-danger">
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Blood Group</th>
+          <th>Units</th>
+          <th>Donation Date</th>
+          <th>State | City</th>
+          <th>Actions</th>
+        </tr>
+        {% if priority_requests %}
+          {% for i in priority_requests %}
+            <tr>
+              <td>{{i.name}}</td>
+              <td>{{i.phone}}</td>
+              <td>{{i.email}}</td>
+              <td>{{i.blood_group}}</td>
+              <td>{{i.units}}</td>
+              <td>{{i.date}}</td>
+              <td>{{i.state}} | {{i.city}}</td>
+              <td><!--<button type="submit" name='update_id' id='update_id' value="{{i.id}}">Update</button>-->
+                <button type="submit" class="btn btn-primary" name='close' value="{{ i.id }}">Closed</button> <!--Ikaw bahala-->
+                <button type="submit" name='delete_id' id='delete_id' value="{{i.id}}" class="btn btn-primary">Delete</button></td>
+            </tr>
+          {% endfor %}
+          </table>
+          <br><br><br>  
+        {% else %}
+          </table>
+          <br><br><br>
+            <div class="note text-center">
+              <h5 class="empty">No Priority Blood Request Available</h5>
+            </div>
+          <br><br><br>
+        {% endif %}
+  </form>
+
+  <form method="POST">{% csrf_token %}
+    <h3 class="text-center">All Accepted Requests</h3>
+    <br>
+      <table class="table table-sm table-bordered">
+        <tr class="table-danger">
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Blood Group</th>
+          <th>Units</th>
+          <th>Donation Date</th>
+          <th>State | City</th>
+          <th>Actions</th>
+        </tr>
+        {% if requests %}
+          {% for i in requests %}
+            <tr>
+              <td>{{i.name}}</td>
+              <td>{{i.phone}}</td>
+              <td>{{i.email}}</td>
+              <td>{{i.blood_group}}</td>
+              <td>{{i.units}}</td>
+              <td>{{i.date}}</td>
+              <td>{{i.state}} | {{i.city}}</td>
+              <td><!--<button type="submit" name='update_id' id='update_id' value="{{i.id}}">Update</button>-->
+                <button type="submit" class="btn btn-primary" name='close' value="{{ i.id }}">Closed</button> <!--Ikaw bahala-->
+                <button type="submit" name='delete_id' id='delete_id' value="{{i.id}}" class="btn btn-primary">Delete</button></td>
+            </tr>
+          {% endfor %}
+      </table>
+      <br><br><br>
+        {% else %}
+      </table>
+          <br><br><br>
+            <div class="note text-center">
+              <h5 class="empty">No Blood Request Available</h5>
+            </div>
+          <br><br><br>
+        {% endif %}
+  </form>
+
+  <form method="POST">{% csrf_token %}
+    <h3 class="text-center">All Closed Request</h3>
+    <br>
+      <table class="table table-sm table-bordered">
+        <tr class="table-danger">
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Blood Group</th>
+          <th>Units</th>
+          <th>Donation Date</th>
+          <th>State | City</th>
+        </tr>
+        {% if closed_requests %}
+          {% for i in closed_requests %}
+            <tr>
+              <td>{{i.name}}</td>
+              <td>{{i.phone}}</td>
+              <td>{{i.email}}</td>
+              <td>{{i.blood_group}}</td>
+              <td>{{i.units}}</td>
+              <td>{{i.date}}</td>
+              <td>{{i.state}} | {{i.city}}</td>
+            </tr>
+          {% endfor %}
+          </table>
+          <br><br><br>
+        {% else %}
+          </table>
+          <br><br><br>
+            <div class="note text-center">
+              <h5 class="empty">No Closed Request Yet</h5>
+            </div>
+          <br><br><br>
+        {% endif %}
+  </form>
+
+  <form method="POST">{% csrf_token %}
+    <h3 class="text-center">All Expired Request</h3>
+    <br>
+      <table class="table table-sm table-bordered">
+        <tr class="table-danger">
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Blood Group</th>
+          <th>Units</th>
+          <th>Donation Date</th>
+          <th>State | City</th>
+          <th>Actions</th>
+        </tr>
+        {% if expired_requests %}
+          {% for i in expired_requests %}
+            <tr>
+              <td>{{i.name}}</td>
+              <td>{{i.phone}}</td>
+              <td>{{i.email}}</td>
+              <td>{{i.blood_group}}</td>
+              <td>{{i.units}}</td>
+              <td>{{i.date}}</td>
+              <td>{{i.state}} | {{i.city}}</td>
+              <td><!--<button type="submit" name='update_id' id='update_id' value="{{i.id}}">Update</button>-->
+                <button type="button" class="btn btn-primary update_request" name='update_id' data-id="{{ i.id }}">Update</button> <!--Ikaw bahala-->
+                <button type="submit" name='delete_id' id='delete_id' value="{{i.id}}" class="btn btn-primary">Delete</button></td>
+            </tr>
+          {% endfor %}
+          </table>
+          <br><br><br>
+        {% else %}
+          </table>
+          <br><br><br>
+            <div class="note text-center">
+              <h5 class="empty">No Expired Request Yet</h5>
+            </div>
+          <br><br><br>
+        {% endif %}
+  </form>
+
+</div>
+
+{% endblock content %}
+
+{% block script %}
+  {% comment %} <script> 
+
+    let formmodal = document.getElementById("exampleModalCenter");
+    let update_request = document.getElementsByClassName('update_request');
+    let close_modal_update = document.getElementById("close_modal_update");
+
+    close_modal_update.addEventListener('click', function() {
+      $('#requestBloodModal').modal('hide')
+    });
+
+    $('#requestBloodModal').on('hidden.bs.modal', function () {
+      console.log('modal closed')
+    })
+
+    for (var i = 0; i < update_request.length; i++) {
+      update_request[i].addEventListener('click', function() {
+        var request_id = $(this).data('id');
+        console.log(request_id)
+
+        $('#update').val(request_id)
+
+        $.ajax({
+          url:'/get_request_data',
+          data:{
+              'request_id': request_id,
+          },
+          success: function(data){
+            if(data.success){
+              $('#requestBloodModal').modal('show');
+              console.log(data.request.blood_group);
+              $('#name').val(data.request.name)
+              $('#email').val(data.request.email)
+              $('#phone').val(data.request.phone)
+              $('#state').val(data.request.state)
+              $('#city').val(data.request.city)
+              $('#address').val(data.request.address)
+              $('#blood_group').val(data.request.blood_group).change()
+              $('#date').val(data.request.date)
+              $('#units').val(data.request.units)
+            }
+          },
+          error: function(data){
+            alert("fail");
+          }
+
+        }); 
+
+    
+      });
+    };
+
+
+  </script> {% endcomment %}
+
+{% endblock script %}
