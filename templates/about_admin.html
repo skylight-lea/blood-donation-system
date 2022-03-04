@@ -1,0 +1,122 @@
+{% extends './admin_base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <ol>
+          <li><a href="index.html">Home</a></li>
+          <li>About Us</li>
+        </ol>
+        <h2>About Us</h2>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= About Section ======= -->
+     <section id="about" class="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <img src="{% static 'assets/img/slide/about.png'%}" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0 content">
+            <h3>About Us</h3>
+            <p class="fst-italic">
+              Blood Donation is important for people in urgent need of it which can save millions of patients. 
+              Here Blood Donation Management System for Red Cross was developed for an easy access to all users. The main objective of this project is to create a platform where the people or patients in need of the blood can easily find a donor of the same blood group. 
+              This connects the donors and the recipients.
+            </p>
+            <ul>
+              <li><i class="bi bi-check-circle"></i> The patients in need of the blood are able to request for the blood.</li>
+              <li><i class="bi bi-check-circle"></i> Users can register themselves to become a donor. </li>
+              <li><i class="bi bi-check-circle"></i> All users are also able to see all the donors list according to different blood groups as well as the list of all the requested blood by different users or patients.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Members Section ======= -->
+    <section id="testimonials" class="testimonials">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Members</h2>
+          <p>Group 4: Blood Donation Management System for Red Cross</p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-6">
+            <div class="testimonial-item">
+              <img src="{% static 'assets/img/testimonials/lance.jpg' %}" class="testimonial-img" alt="">
+              <h3>Laurence Paul Bernardo</h3>
+              <h4>Project Leader & Back-end Developer</h4>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="testimonial-item mt-4 mt-lg-0">
+              <img src="{% static 'assets/img/testimonials/lea.jpg' %}" class="testimonial-img" alt="">
+              <h3>Lea Marie Angeles</h3>
+              <h4>Front-End Head Developer</h4>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="testimonial-item mt-4">
+              <img src="{% static 'assets/img/testimonials/giesel.jpg' %}" class="testimonial-img" alt="">
+              <h3>Giesel Batoon</h3>
+              <h4>Front-End Developer & Documentation</h4>
+              <p>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="testimonial-item mt-4">
+              <img src="{% static 'assets/img/testimonials/albert.jpg' %}" class="testimonial-img" alt="">
+              <h3>Albert Venie Bufete</h3>
+              <h4>Back-End Developer & Graphic Design</h4>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="testimonial-item mt-4">
+              <img src="{% static 'assets/img/testimonials/sean.jpg' %}" class="testimonial-img" alt="">
+              <h3>Sean Kyle Emmanuel Juruena</h3>
+              <h4>Back-End Developer</h4>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="testimonial-item mt-4">
+              <img src="{% static 'assets/img/testimonials/marlon.jpg' %}" class="testimonial-img" alt="">
+              <h3>Marlon Rellama</h3>
+              <h4>Front-End Developer</h4>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Members Section -->
+
+  </main><!-- End #main -->
+
+
+
+
+
+
+{% endblock content %}
+
+{% block script %}
+    
+{% endblock script %}

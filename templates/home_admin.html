@@ -1,0 +1,159 @@
+{% extends './admin_base.html' %}
+
+{% load static %}
+
+{% block content %}
+<!--DITO LALAGAY BODY-->
+  <!-- ======= Hero Section ======= -->
+  <section id="hero">
+    <div class="hero-container">
+      <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+        <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+
+        <div class="carousel-inner" role="listbox">
+
+          <!-- Slide 1 -->
+          <div class="carousel-item active" style="background: url({% static 'assets/img/slide/image3.png'%})">
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="carousel-item" style="background: url({% static 'assets/img/slide/pic2.jpg'%})">
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="carousel-item" style="background: url({% static 'assets/img/slide/pic3.jpg'%})">
+          </div>
+
+        </div>
+
+        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+        </a>
+
+        <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+          <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+        </a>
+
+      </div>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Featured Section ======= -->
+    <section id="featured" class="featured">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="icon-box">
+              <i class="bi bi-card-checklist"></i>
+              <h3><a href="">Request Blood</a></h3>
+              <p>Easy and accessible online request blood that users may fill out.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="icon-box">
+              <i class="bi"></i>
+              <i class="bx bx-donate-blood"></i>
+              <h3><a href=""><br>Become Blood Donor</a></h3>
+              <p>Become a blood donor with easy registration and save lives.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="icon-box">
+              <i class="bi"></i>
+              <i class="bx bx-book-content"></i>
+              <h3><a href=""><br>Contact</a></h3>
+              <p>An easy accessible hotline number for Philippine Red Cross.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Featured Section -->
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <img src="{% static 'assets/img/slide/about.png'%}" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0 content">
+            <h3>About Us</h3>
+            <p class="fst-italic">
+              Blood Donation is important for people in urgent need of it which can save millions of patients. 
+              Here Blood Donation Management System for Red Cross was developed for an easy access to all users. The main objective of this project is to create a platform where the people or patients in need of the blood can easily find a donor of the same blood group. 
+              This connects the donors and the recipients.
+            </p>
+            <ul>
+              <li><i class="bi bi-check-circle"></i> The patients in need of the blood are able to request for the blood.</li>
+              <li><i class="bi bi-check-circle"></i> Users can register themselves to become a donor. </li>
+              <li><i class="bi bi-check-circle"></i> All users are also able to see all the donors list according to different blood groups as well as the list of all the requested blood by different users or patients.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container">
+        <div class="row">
+          <h1 align="center"><b>How to Donate Blood</b><br><br></h1>
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-bookmark-plus"></i></div>
+              <h4><a href="">How often can a person donate?</a></h4>
+              <p>A healthy individual may donate every three months.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-bookmark-plus"></i></div>
+              <h4><a href="">Will donating blood make a person weak?</a></h4>
+              <p>No, it will not make you weak. Donating 450cc will not cause any ill effects or weakness. The human body has the capacity to compensate with the new fluid volume. Further, the bone marrow is stimulated to produce new blood cells which in turn makes the blood forming organs function more effectively.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-bookmark-plus"></i></div>
+              <h4><a href="">Can a person who has tattoo or body piercing still donate blood?</a></h4>
+              <p>If the tattooing procedure or the piercing was done a year ago, he/she may donate. This is also applicable to acupuncture, and other procedures involving needles.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-bookmark-plus"></i></div>
+              <h4><a href="">How long will it take to donate blood?</a></h4>
+              <p>The whole process of blood donation, from the registration up to the recovery, will only take an average of 30 minutes.
+
+                The blood extraction will take about 5-10 minutes. The blood volume will start replenishing within 24 hours. Theoretically, by the end of the month, the body will have the blood status before the blood donation.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-bookmark-plus"></i></div>
+              <h4><a href="">Will I contract disease through blood donation?</a></h4>
+              <p>No, we use sterile, disposable needles and syringes.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+  </main>
+
+{% endblock content %}
+
+{% block script %}
+    
+{% endblock script %}
