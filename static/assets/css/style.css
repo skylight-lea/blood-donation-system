@@ -1669,13 +1669,13 @@ body {
     font-size: 16px;
     padding: 0 30px;
     margin: 3px;
-    background: #e96b56;
+    background: #8B0000;
     color: #fff;
     transition: 0.3s;
     border-radius: 50px;
   }
   #footer .footer-newsletter form input[type=submit]:hover {
-    background: #e6573f;
+    background: #8B0000;
   }
   #footer .footer-top {
     background: #3b3b3b;
@@ -1715,7 +1715,7 @@ body {
     transition: 0.3s;
   }
   #footer .footer-top .social-links a:hover {
-    background: #e96b56;
+    background: #8B0000;
     color: #fff;
     text-decoration: none;
   }
@@ -1737,7 +1737,7 @@ body {
   }
   #footer .footer-top .footer-links ul i {
     padding-right: 2px;
-    color: #ec7f6d;
+    color: #8B0000;
     font-size: 18px;
     line-height: 1;
   }
@@ -1756,7 +1756,7 @@ body {
     line-height: 1;
   }
   #footer .footer-top .footer-links ul a:hover {
-    color: #e96b56;
+    color: #8B0000;
   }
   #footer .footer-top .footer-contact {
     margin-bottom: 30px;
