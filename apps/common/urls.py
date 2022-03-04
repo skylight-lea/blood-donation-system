@@ -10,6 +10,7 @@ urlpatterns = [
     # path("donors_details/<int:myid>/", views.donors_details, name="donors_details"),
     path("home", home, name="home"),
     path("request_blood/", request_blood, name="request_blood"),
+    path("accepted_request/", accepted_request, name="accepted_request"),
     path("see_all_request/", see_all_request, name="see_all_request"),
     path("become_donor/", become_donor, name="become_donor"),
     path("about/", about , name="about"),
