@@ -1,4 +1,3 @@
-import email
 from pyexpat.errors import messages
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -8,6 +7,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import datetime
+from django.core.mail import EmailMessage
+import threading
 
 # Create your views here.
 def index(request):
@@ -114,6 +115,14 @@ def see_all_request(request):
             user = RequestBlood.objects.get(id=user_id)
             user.status = "accepted"
             user.save()
+            
+            # send Email
+            # email = user.email
+            # body = 'You request is closed'
+            # subject = 'Closed Request'
+            # email=EmailMessage(subject=subject,body=body, to=[email])
+            # sendEmail(email).start()
+            
             requests = RequestBlood.objects.filter(status="pending")
             expired_requests = RequestBlood.objects.filter(status="expired")
             return render(request, "see_all_request.html", {'requests':requests, 'priority_requests':priority_list(requests), 'expired_requests':expired_requests})
@@ -194,6 +203,15 @@ def accepted_request(request):
             user.status = "closed"
             user.save()
             requests = RequestBlood.objects.filter(status="accepted")
+            
+            # send Email
+            # email = user.email
+            # body = 'You request is closed'
+            # subject = 'Closed Request'
+            # email=EmailMessage(subject=subject,body=body, to=[email])
+            # sendEmail(email).start()
+            
+            
             expired_requests = RequestBlood.objects.filter(status="accept_expired")
             closed_requests = RequestBlood.objects.filter(status="closed")
             return render(request, "accepted_request.html", {'requests':requests, 'priority_requests':priority_list(requests), 'closed_requests':closed_requests, 'expired_requests':expired_requests})
@@ -415,9 +433,17 @@ def donate_form (request):
             date = request.POST['date']
             units = request.POST['units']
             
+            donor.units_blood_donated = int(donor.units_blood_donated) + int(units)
+            donor.save()
+            
             donate = donation_history.objects.create(donor=user,name=full_name,email=email,branch=branch,donation_date=date,units_blood_donated=units)
             donate.save()
+            
             print('Valid Email')
+            body = 'You donated 2 bags of blood at redcross quezon city branch.'
+            subject = 'blood Donation'
+            email=EmailMessage(subject=subject,body=body, to=[email])
+            sendEmail(email).start()
             
             return render(request, "donate_form.html",{'success' : True})
 
@@ -434,7 +460,15 @@ def donate_form (request):
             return render(request, "donate_form.html", {'success' : False, 'inputs' : inputs})
         
     return render(request, "donate_form.html")
- 
+
+class sendEmail(threading.Thread):
+    def __init__(self, email):
+        self.email = email
+        threading.Thread.__init__(self)
+    
+    def run(self):
+        self.email.send()
+
 def about_admin (request):
     return render(request, "about_admin.html")
     
