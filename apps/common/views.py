@@ -394,4 +394,17 @@ def logout_user(request):
 
 def contact (request):
      return render(request, "contact.html")
+ 
+def admin_base (request):
+     return render(request, "admin_base.html")
+ 
+def home_admin (request):
+     return render(request, "home_admin.html")
+ 
+def donate_form (request):
+     return render(request, "donate_form.html")
+ 
+def about_admin (request):
+     return render(request, "about_admin.html")
+    
     
