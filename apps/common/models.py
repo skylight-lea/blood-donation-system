@@ -37,3 +37,14 @@ class Donor(models.Model):
  
     def __str__(self):
         return str(self.blood_group)
+
+class donation_history(models.Model):
+    donor = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    branch = models.CharField(max_length=500, blank=True)
+    donation_date = models.DateField(blank=True)
+    units_blood_donated = models.IntegerField(default=0, blank=True)
+    
+    def __str__(self):
+        return self.name

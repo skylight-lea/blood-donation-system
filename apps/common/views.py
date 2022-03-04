@@ -1,3 +1,4 @@
+import email
 from pyexpat.errors import messages
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -393,18 +394,48 @@ def logout_user(request):
     return JsonResponse({'success' : True})
 
 def contact (request):
-     return render(request, "contact.html")
+    return render(request, "contact.html")
  
 def admin_base (request):
-     return render(request, "admin_base.html")
+    return render(request, "admin_base.html")
  
 def home_admin (request):
-     return render(request, "home_admin.html")
+    return render(request, "home_admin.html")
  
 def donate_form (request):
-     return render(request, "donate_form.html")
+    if request.method == "POST":
+        try:
+            user = User.objects.get(email = request.POST['email'])
+            donor = Donor.objects.get(donor = user)
+            
+            # save data
+            full_name = request.POST['full_name']
+            email = request.POST['email']
+            branch = request.POST['branch']
+            date = request.POST['date']
+            units = request.POST['units']
+            
+            donate = donation_history.objects.create(donor=user,name=full_name,email=email,branch=branch,donation_date=date,units_blood_donated=units)
+            donate.save()
+            print('Valid Email')
+            
+            return render(request, "donate_form.html",{'success' : True})
+
+        except:
+            print('invalid Email')
+            inputs = {
+               'full_name' : request.POST['full_name'],
+               'email' : request.POST['email'],
+               'branch' : request.POST['branch'],
+               'blood_group' : request.POST['blood_group'],
+               'date' : request.POST['date'],
+               'units' : request.POST['units'],
+            }
+            return render(request, "donate_form.html", {'success' : False, 'inputs' : inputs})
+        
+    return render(request, "donate_form.html")
  
 def about_admin (request):
-     return render(request, "about_admin.html")
+    return render(request, "about_admin.html")
     
     
