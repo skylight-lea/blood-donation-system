@@ -6,7 +6,7 @@ from django.db.models import Q, Count
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
+import datetime
 
 # Create your views here.
 def index(request):
@@ -39,7 +39,20 @@ def request_blood(request):
 
 
 def see_all_request(request):
-    requests = RequestBlood.objects.all()
+    requests = RequestBlood.objects.filter(status="pending")
+    
+    # check date validity
+    current_date = datetime.datetime.now().date()
+    for req in requests:
+        print(req.status)
+        request_date = datetime.datetime.strptime(req.date, '%Y-%m-%d').date()
+        if request_date < current_date:
+            req.status = 'expired'
+            req.save()
+            print('request expired')
+    
+    requests = RequestBlood.objects.filter(status="pending")
+    expired_requests = RequestBlood.objects.filter(status="expired")
     
     if request.method == "POST":
         if 'update_id' in request.POST:
@@ -58,8 +71,8 @@ def see_all_request(request):
             user.delete()
             print('Update: User ', request.POST.get('delete_id'))
             
-            requests = RequestBlood.objects.all()
-            return render(request, "see_all_request.html", {'requests':requests, 'priority_requests':priority_list(requests)})
+            requests = RequestBlood.objects.filter(status="pending")
+            return render(request, "see_all_request.html", {'requests':requests, 'priority_requests':priority_list(requests), 'expired_requests':expired_requests})
         
         if 'update' in request.POST:
             user_id=request.POST.get('update')
@@ -77,12 +90,37 @@ def see_all_request(request):
             user.units = request.POST['units']
             user.save()
             
-            requests = RequestBlood.objects.all()
-            return render(request, "see_all_request.html", {'requests':requests, 'priority_requests':priority_list(requests)})
+            current_date = datetime.datetime.now().date()
+            request_date = datetime.datetime.strptime(user.date, '%Y-%m-%d').date()
+            
+            print('request_date', request_date)
+            if request_date >= current_date:
+                if user.status == 'expired':
+                    user.status = 'pending'
+                    user.save()
+            
+            if request_date < current_date:
+                if user.status == 'pending':
+                    user.status = 'expired'
+                    user.save()
+                
+            requests = RequestBlood.objects.filter(status="pending")
+            expired_requests = RequestBlood.objects.filter(status="expired")
+            return render(request, "see_all_request.html", {'requests':requests, 'priority_requests':priority_list(requests), 'expired_requests':expired_requests})
+        
+        if 'accept' in request.POST:
+            user_id=request.POST.get('accept')
+            user = RequestBlood.objects.get(id=user_id)
+            user.status = "accepted"
+            user.save()
+            requests = RequestBlood.objects.filter(status="pending")
+            expired_requests = RequestBlood.objects.filter(status="expired")
+            return render(request, "see_all_request.html", {'requests':requests, 'priority_requests':priority_list(requests), 'expired_requests':expired_requests})
+        
         print(request.POST)    
         
         
-    return render(request, "see_all_request.html", {'requests':requests, 'priority_requests':priority_list(requests)})
+    return render(request, "see_all_request.html", {'requests':requests, 'priority_requests':priority_list(requests), 'expired_requests':expired_requests})
 
 def priority_list(requests):
     priority_list = []

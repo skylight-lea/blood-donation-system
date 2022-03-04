@@ -1,4 +1,4 @@
-{% extends './base.html' %}
+{% extends './admin_base.html' %}
 
 {% load static %}
 
@@ -30,12 +30,13 @@
               <td>{{i.date}}</td>
               <td>{{i.state}} | {{i.city}}</td>
               <td><!--<button type="submit" name='update_id' id='update_id' value="{{i.id}}">Update</button>-->
-                <button type="button" class="btn btn-primary update_request" name='update_id' data-id="{{ i.id }}" class="btn btn-primary">Update</button> <!--Ikaw bahala-->
-                <button type="submit" name='accept' id='accept' value="{{i.id}}" class="btn btn-primary">Accept</button>
+                <button type="button" class="btn btn-primary update_request" name='update_id' data-id="{{ i.id }}">Update</button> <!--Ikaw bahala-->
+                <button type="button" class="btn btn-primary accept_request" name='accept' data-id="{{ i.id }}">Accept</button>
                 <button type="submit" name='delete_id' id='delete_id' value="{{i.id}}" class="btn btn-primary">Delete</button></td>
             </tr>
           {% endfor %}
           </table>
+          <br><br><br>  
         {% else %}
           </table>
           <br><br><br>
@@ -71,17 +72,58 @@
               <td>{{i.date}}</td>
               <td>{{i.state}} | {{i.city}}</td>
               <td><!--<button type="submit" name='update_id' id='update_id' value="{{i.id}}">Update</button>-->
-                <button type="button" class="btn btn-primary update_request" name='update_id' data-id="{{ i.id }}" class="btn btn-primary">Update</button> <!--Ikaw bahala-->
-                <button type="submit" name='accept' id='accept' value="{{i.id}}" class="btn btn-primary">Accept</button>
+                <button type="button" class="btn btn-primary update_request" name='update_id' data-id="{{ i.id }}">Update</button> <!--Ikaw bahala-->
+                <button type="submit" class="btn btn-primary" name='accept' id'accept' value="{{ i.id }}">Accept</button>
                 <button type="submit" name='delete_id' id='delete_id' value="{{i.id}}" class="btn btn-primary">Delete</button></td>
             </tr>
           {% endfor %}
       </table>
+      <br><br><br>
         {% else %}
       </table>
           <br><br><br>
             <div class="note text-center">
               <h5 class="empty">No Blood Request Available</h5>
+            </div>
+          <br><br><br>
+        {% endif %}
+  </form>
+
+  <form method="POST">{% csrf_token %}
+    <h3 class="text-center">All Expired Request</h3>
+    <br>
+      <table class="table table-sm table-bordered">
+        <tr class="table-danger">
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Blood Group</th>
+          <th>Units</th>
+          <th>Donation Date</th>
+          <th>State | City</th>
+          <th>Actions</th>
+        </tr>
+        {% if expired_requests %}
+          {% for i in expired_requests %}
+            <tr>
+              <td>{{i.name}}</td>
+              <td>{{i.phone}}</td>
+              <td>{{i.email}}</td>
+              <td>{{i.blood_group}}</td>
+              <td>{{i.units}}</td>
+              <td>{{i.date}}</td>
+              <td>{{i.state}} | {{i.city}}</td>
+              <td><!--<button type="submit" name='update_id' id='update_id' value="{{i.id}}">Update</button>-->
+                <button type="button" class="btn btn-primary update_request" name='update_id' data-id="{{ i.id }}">Update</button> <!--Ikaw bahala-->
+                <button type="submit" name='delete_id' id='delete_id' value="{{i.id}}" class="btn btn-primary">Delete</button></td>
+            </tr>
+          {% endfor %}
+          </table>
+        {% else %}
+          </table>
+          <br><br><br>
+            <div class="note text-center">
+              <h5 class="empty">No Expired Request Yet</h5>
             </div>
           <br><br><br>
         {% endif %}
@@ -93,7 +135,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalCenterTitle">Update Request</h5>
           {% comment %} <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button> {% endcomment %}
@@ -169,7 +211,7 @@
 
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" id="close_modal" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary" id="close_modal_update" data-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary" name="update" id="update">Save changes</button>
             </div>
           </form>
@@ -187,9 +229,9 @@
 
     let formmodal = document.getElementById("exampleModalCenter");
     let update_request = document.getElementsByClassName('update_request');
-    let close_modal = document.getElementById("close_modal");
+    let close_modal_update = document.getElementById("close_modal_update");
 
-    close_modal.addEventListener('click', function() {
+    close_modal_update.addEventListener('click', function() {
       $('#requestBloodModal').modal('hide')
     });
 
@@ -233,6 +275,7 @@
     
       });
     };
+
 
   </script>
 
