@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import datetime
+from django.core.mail import EmailMessage
+import threading
 
 # Create your views here.
 def index(request):
@@ -113,6 +115,23 @@ def see_all_request(request):
             user = RequestBlood.objects.get(id=user_id)
             user.status = "accepted"
             user.save()
+            
+            # send Email
+            email = user.email
+            body = f"""
+            Dear {user.name},
+            We would like to inform you that your (number) units of blood requested on {user.date} have been approved.
+            Please be advised to bring {user.units} valid I.D. to claim the requested at our Philippine Red Cross Blood Bank Department, 2nd floor West Wing near the Billing Department.
+            Address: 37 EDSA corner Boni Avenue, Barangka-Ilaya, Mandaluyong City 1550. Contact Us: (02) 8790-2300 local 931/932/935
+            Email: communication@redcross.org.ph
+            Thank you so much, we hope to see you soon!
+            Sincerely,
+            Philippine National Red Cross
+            """
+            subject = 'Request Accepted'
+            email=EmailMessage(subject=subject,body=body, to=[email])
+            sendEmail(email).start()
+            
             requests = RequestBlood.objects.filter(status="pending")
             expired_requests = RequestBlood.objects.filter(status="expired")
             return render(request, "see_all_request.html", {'requests':requests, 'priority_requests':priority_list(requests), 'expired_requests':expired_requests})
@@ -193,6 +212,24 @@ def accepted_request(request):
             user.status = "closed"
             user.save()
             requests = RequestBlood.objects.filter(status="accepted")
+            
+            # send Email
+            email = user.email
+            body = f""" 
+            Dear {user.name},
+            We would like to inform you that your {user.units} units of blood requested on {user.date} transaction is complete.
+            Please be advised that we will now close your request. You may always contact us to assist you with your concerns.
+            Address: 37 EDSA corner Boni Avenue, Barangka-Ilaya, Mandaluyong City 1550. Contact Us: (02) 8790-2300 local 931/932/935
+            Email: communication@redcross.org.ph
+            Thank you so much, have a great day!
+            Sincerely,
+            Philippine National Red Cross
+            """
+            subject = 'Transaction Complete'
+            email=EmailMessage(subject=subject,body=body, to=[email])
+            sendEmail(email).start()
+            
+            
             expired_requests = RequestBlood.objects.filter(status="accept_expired")
             closed_requests = RequestBlood.objects.filter(status="closed")
             return render(request, "accepted_request.html", {'requests':requests, 'priority_requests':priority_list(requests), 'closed_requests':closed_requests, 'expired_requests':expired_requests})
@@ -315,14 +352,13 @@ def view_donor_details(request):
             'email' : donor.donor.email,
             'gender' : donor.gender,
             'date_of_birth' : donor.date_of_birth,
-            'gender' : donor.gender,
             'phone' : donor.phone,
             'address' : donor.address,
             'city' : donor.city,
             'state' : donor.state,
             'ready_to_donate' : donor.ready_to_donate,
             'blood_group' : donor.blood_group.name,
-            'image' : donor.image.name,
+            'image' : donor.image.url,
         }
     }
     return JsonResponse(data)
@@ -393,21 +429,80 @@ def logout_user(request):
     return JsonResponse({'success' : True})
 
 def contact (request):
-     return render(request, "contact.html")
+    return render(request, "contact.html")
  
 def admin_base (request):
-     return render(request, "admin_base.html")
+    return render(request, "admin_base.html")
  
 def home_admin (request):
-     return render(request, "home_admin.html")
+    return render(request, "home_admin.html")
  
 def donate_form (request):
-     return render(request, "donate_form.html")
- 
+    if request.method == "POST":
+        try:
+            user = User.objects.get(email = request.POST['email'])
+            donor = Donor.objects.get(donor = user)
+            
+            # save data
+            full_name = request.POST['full_name']
+            email = request.POST['email']
+            branch = request.POST['branch']
+            date = request.POST['date']
+            units = request.POST['units']
+            
+            donor.units_blood_donated = int(donor.units_blood_donated) + int(units)
+            donor.save()
+            
+            donate = donation_history.objects.create(donor=user,name=full_name,email=email,branch=branch,donation_date=date,units_blood_donated=units)
+            donate.save()
+            
+            print('Valid Email')
+            body = f"""
+            Dear {full_name},
+            Greetings!
+            We admire and thank you for donating blood. You are a hero. A successful blood donation is the result of community partnerships. Volunteers like you help to ensure that those needing blood and blood produces receive thrive.
+            In behalf of the Philippine National Red Cross, we have been touched by your efforts, we offer our thanks. You made a significant difference in building a stronger blood system for Filipinos.
+            You may always contact us to assist you with your concerns.
+            Address: 37 EDSA corner Boni Avenue, Barangka-Ilaya, Mandaluyong City 1550. Contact Us: (02) 8790-2300 local 931/932/935
+            Email: communication@redcross.org.ph
+            Thank you so much.
+            Sincerely,
+            Philippine National Red Cross
+            
+            note: Please reply to this message with your full name to recieve your certificate.
+            """
+            subject = 'blood Donation'
+            email=EmailMessage(subject=subject,body=body, to=[email])
+            sendEmail(email).start()
+            
+            return render(request, "donate_form.html",{'success' : True})
+
+        except:
+            print('invalid Email')
+            inputs = {
+               'full_name' : request.POST['full_name'],
+               'email' : request.POST['email'],
+               'branch' : request.POST['branch'],
+               'blood_group' : request.POST['blood_group'],
+               'date' : request.POST['date'],
+               'units' : request.POST['units'],
+            }
+            return render(request, "donate_form.html", {'success' : False, 'inputs' : inputs})
+        
+    return render(request, "donate_form.html")
+
+class sendEmail(threading.Thread):
+    def __init__(self, email):
+        self.email = email
+        threading.Thread.__init__(self)
+    
+    def run(self):
+        self.email.send()
+
 def about_admin (request):
-     return render(request, "about_admin.html")
+    return render(request, "about_admin.html")
  
 def cert (request):
-     return render(request, "cert.html")
+    return render(request, "cert.html")
     
     
