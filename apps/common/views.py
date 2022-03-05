@@ -334,14 +334,13 @@ def view_donor_details(request):
             'email' : donor.donor.email,
             'gender' : donor.gender,
             'date_of_birth' : donor.date_of_birth,
-            'gender' : donor.gender,
             'phone' : donor.phone,
             'address' : donor.address,
             'city' : donor.city,
             'state' : donor.state,
             'ready_to_donate' : donor.ready_to_donate,
             'blood_group' : donor.blood_group.name,
-            'image' : donor.image.name,
+            'image' : donor.image.url,
         }
     }
     return JsonResponse(data)

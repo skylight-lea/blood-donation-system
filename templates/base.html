@@ -77,6 +77,7 @@
               </ul>
           {% else %}
             <li><a href="{% url 'common:login_user' %}">Login</a></li>
+            <li hidden><a type="button" id="logout">Logout</a></li>
           {% endif %}
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
