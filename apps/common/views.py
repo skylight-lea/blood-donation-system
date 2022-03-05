@@ -117,11 +117,20 @@ def see_all_request(request):
             user.save()
             
             # send Email
-            # email = user.email
-            # body = 'You request is closed'
-            # subject = 'Closed Request'
-            # email=EmailMessage(subject=subject,body=body, to=[email])
-            # sendEmail(email).start()
+            email = user.email
+            body = f"""
+            Dear {user.name},
+            We would like to inform you that your (number) units of blood requested on {user.date} have been approved.
+            Please be advised to bring {user.units} valid I.D. to claim the requested at our Philippine Red Cross Blood Bank Department, 2nd floor West Wing near the Billing Department.
+            Address: 37 EDSA corner Boni Avenue, Barangka-Ilaya, Mandaluyong City 1550. Contact Us: (02) 8790-2300 local 931/932/935
+            Email: communication@redcross.org.ph
+            Thank you so much, we hope to see you soon!
+            Sincerely,
+            Philippine National Red Cross
+            """
+            subject = 'Request Accepted'
+            email=EmailMessage(subject=subject,body=body, to=[email])
+            sendEmail(email).start()
             
             requests = RequestBlood.objects.filter(status="pending")
             expired_requests = RequestBlood.objects.filter(status="expired")
@@ -205,11 +214,20 @@ def accepted_request(request):
             requests = RequestBlood.objects.filter(status="accepted")
             
             # send Email
-            # email = user.email
-            # body = 'You request is closed'
-            # subject = 'Closed Request'
-            # email=EmailMessage(subject=subject,body=body, to=[email])
-            # sendEmail(email).start()
+            email = user.email
+            body = f""" 
+            Dear {user.name},
+            We would like to inform you that your {user.units} units of blood requested on {user.date} transaction is complete.
+            Please be advised that we will now close your request. You may always contact us to assist you with your concerns.
+            Address: 37 EDSA corner Boni Avenue, Barangka-Ilaya, Mandaluyong City 1550. Contact Us: (02) 8790-2300 local 931/932/935
+            Email: communication@redcross.org.ph
+            Thank you so much, have a great day!
+            Sincerely,
+            Philippine National Red Cross
+            """
+            subject = 'Transaction Complete'
+            email=EmailMessage(subject=subject,body=body, to=[email])
+            sendEmail(email).start()
             
             
             expired_requests = RequestBlood.objects.filter(status="accept_expired")
@@ -439,7 +457,20 @@ def donate_form (request):
             donate.save()
             
             print('Valid Email')
-            body = 'You donated 2 bags of blood at redcross quezon city branch.'
+            body = f"""
+            Dear {full_name},
+            Greetings!
+            We admire and thank you for donating blood. You are a hero. A successful blood donation is the result of community partnerships. Volunteers like you help to ensure that those needing blood and blood produces receive thrive.
+            In behalf of the Philippine National Red Cross, we have been touched by your efforts, we offer our thanks. You made a significant difference in building a stronger blood system for Filipinos.
+            You may always contact us to assist you with your concerns.
+            Address: 37 EDSA corner Boni Avenue, Barangka-Ilaya, Mandaluyong City 1550. Contact Us: (02) 8790-2300 local 931/932/935
+            Email: communication@redcross.org.ph
+            Thank you so much.
+            Sincerely,
+            Philippine National Red Cross
+            
+            note: Please reply to this message with your full name to recieve your certificate.
+            """
             subject = 'blood Donation'
             email=EmailMessage(subject=subject,body=body, to=[email])
             sendEmail(email).start()
