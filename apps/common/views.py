@@ -501,5 +501,8 @@ class sendEmail(threading.Thread):
 
 def about_admin (request):
     return render(request, "about_admin.html")
+ 
+def cert (request):
+    return render(request, "cert.html")
     
     

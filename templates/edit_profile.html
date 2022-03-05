@@ -1,7 +1,5 @@
 {% extends './base.html' %}
-
 {% load static %}
-
 {% block content %}
 
 <div class="container">
@@ -74,13 +72,13 @@
         <input type="date" class="form-control" id="date" name="date" value="{{donor_profile.date_of_birth}}" readonly>
     </div>
 </div>
- 
+ <br>
 <button type="submit" class="btn btn-primary">Update Profile</button>
+<br>
 </form>
+<br>
 </div>
 
 {% endblock content %}
-
 {% block script %}
-    
 {% endblock script %}
