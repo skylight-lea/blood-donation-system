@@ -25,6 +25,7 @@ urlpatterns = [
     path('home_admin/', home_admin, name='home_admin'),
     path('donate_form/', donate_form, name='donate_form'),
     path('about_admin/', about_admin, name='about_admin'),
+    path('cert/', cert, name='cert'),
     # path("login/", views.Login, name="login"),
     # path("logout/", views.Logout, name="logout"),
     # path('profile/', views.profile, name='profile'),
