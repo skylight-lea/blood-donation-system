@@ -1,17 +1,11 @@
 {% extends './base.html' %}
-
 {% load static %}
-
 {% block content %}
-
 <main id="main">
-
     <!-- ======= Login Section ======= -->
     <section id="login" class="login">
       <div class="container">
-        <br>
-        <br>
-        <br>
+        <br><br><br>
           <div class="col-lg-4 mt-4 mt-lg-0">
             <form method="POST"> {% csrf_token %}
             <div class="icon-box">
@@ -34,12 +28,8 @@
           </div>
       </div>
     </section><!-- End Featured Section -->
-
 </main>
-
-
 {% endblock content %}
-
-{% block script %}
-    
+{% block script %} 
 {% endblock script %}
+

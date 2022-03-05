@@ -1,7 +1,5 @@
 {% extends './base.html' %}
-
 {% load static %}
-
 {% block content %}
 <div class="container"> 
   <form method="POST">{% csrf_token %}
@@ -126,9 +124,7 @@
             alert("fail");
           }
 
-        }); 
-
-    
+        });  
       });
     };
 
